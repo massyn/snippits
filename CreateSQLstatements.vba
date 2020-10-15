@@ -1,4 +1,6 @@
 Sub CreateSQLstatements()
+    
+    strTable = "myTableName"
 
     ' find the edge of the column
     Edge = 0
@@ -17,15 +19,14 @@ Sub CreateSQLstatements()
         
         For Col = 1 To Edge - 1
             Head = Cells(1, Col)
-            Data = Cells(Row, Col)
+            Data = Replace(Cells(Row, Col),"'","''")
             
-            Fields = Fields & Head & ","
+            Fields = Fields & "[" & Head & "],"
             Values = Values & "'" & Data & "',"
         Next Col
         
-        Sql = Replace("INSERT INTO policy (" & Fields & ") VALUES (" & Values & ");", ",)", ")")
-        
-        
+        Sql = Replace("INSERT INTO [" & strTable & "] (" & Fields & ") VALUES (" & Values & ");", ",)", ")")
+
         Cells(Row, Edge) = Sql
         
         Row = Row + 1
